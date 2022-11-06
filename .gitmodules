@@ -1,0 +1,3 @@
+[submodule "akvarel"]
+	path = akvarel
+	url = https://github.com/aUser972/akvarel.git

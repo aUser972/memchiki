@@ -1,28 +1,18 @@
 {
-  
-  "AdministrativeDistricts": [
-    "ЗАО",
-    "ВАО",
-    "САО",
-    "СВАО",
-    "СЗАО",
-    "ЦАО",
-    "ЮАО",
-    "ЮВАО",
-    "ЮЗАО"
-  ],
   "Area": [
-    "Куркино",
-    "Митино",
-    ...
-  ],  
-  "objectType":[
-    "Library",
-    "Kiosk",
-    "MFC",
-    "CultureHouse",
-    "SportsHouse",
-    "ApartmentBuilding"
-  ],
-  "calculationModel": "Model1"
+    {
+      "id": 1,
+      "name": "Куркино"
+    },
+    {
+      "id": 2,
+      "name": "Митино"
+    },
+    {
+      "id": 2,
+      "name": "Аэропорт"
+    }
+  ]
 }
+
+

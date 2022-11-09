@@ -30,40 +30,34 @@ class ClientProcessing:
   )
   @app.post("/")
   async def get_data(req: Request):
-    #Waits for the request and converts into JSON
-    # print(req)
-    # result = item.json()
-    response = { "Postamats": [] }
+    response = {}
+
     with open("TmpData_new.json") as f:
       json_data = json.load(f)
     f.close()
-    for area in req.Area:
-      for district in json_data["Districts"]:
-        for are in district["area"]:
-          if area == are['name']:
-            for i in are['postamats']:
-              print(i)
-              response['Postamats'].append(i)
-    print(response)
-    # Prints result in cmd – verification purpose
-    return response
 
-  @app.get("/")
-  async def get_data():
-    print("Get data")
-    return { "name": "Andrey"}
+    if req.calculationModel == "Model1":
+      response = { "Postamats": [] }
+      for area in req.Area:
+        for district in json_data["Districts"]:
+          for are in district["area"]:
+            if area == are['name']:
+              for i in are['postamats']:
+                print(i)
+                response['Postamats'].append(i)
+    else:
+      response = { "Polygon": [] }
+      for area in req.Area:
+        for district in json_data["Districts"]:
+          for are in district["area"]:
+            if area == are['name']:
+              for i in are['postamats']:
+                print(i)
+                response['Polygon'].append(i)
+    return response
 
   def start(self):
     with open("config.json") as f:
       config_data = json.load(f)
     f.close()
     uvicorn.run(self.app, host=config_data["ip_addr"], port=config_data["port"])
-
-
-# with open("TmpData_new.json") as f:
-#   json_data = json.load(f)
-# f.close()
-
-# for district in json_data["Districts"]:
-#   for are in district["area"]:
-#     print(are['postamats'])

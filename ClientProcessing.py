@@ -14,8 +14,8 @@ class Request(BaseModel):
   Area: List[str]
   objectType: List[str]
   calculationModel: str
-  minConsumers: str
   maxConsumers: str
+  minConsumers: str
 
 
 class ClientProcessing:
@@ -43,8 +43,8 @@ class ClientProcessing:
           for are in district["area"]:
             if area == are['name']:
               for i in are['postamats']:
-                print(i)
-                response['Postamats'].append(i)
+                if float(req.minConsumers) < i['coefficient'] < float(req.maxConsumers):
+                  response['Postamats'].append(i)
     else:
       response = { "Polygon": [] }
       for area in req.Area:
@@ -52,8 +52,8 @@ class ClientProcessing:
           for are in district["area"]:
             if area == are['name']:
               for i in are['postamats']:
-                print(i)
-                response['Polygon'].append(i)
+                if float(req.minConsumers) < i['coefficient'] < float(req.maxConsumers):
+                  response['Polygon'].append(i)
     return response
 
   def start(self):

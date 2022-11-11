@@ -14,7 +14,7 @@ def get_address(type_obj):  #принимает тип объекта(соотв
     worksheet = workbook.active
 
     if worksheet.max_row > 2517: #абсолютно тупая проверка, чтобы ограничить количество запросов из-за таблицы с домами
-        count_row = 10  #тут ограничитель по запросам
+        count_row = 10000
     else:
         count_row = worksheet.max_row
     for row in worksheet.iter_rows(3, count_row): #запустил на весь размер таблицы
@@ -30,7 +30,6 @@ def get_address(type_obj):  #принимает тип объекта(соотв
 class OpenMapData_PASHOK:
     def getPostamatData():
         list_object = ['mfc', 'kiosk', 'sport', 'culture', 'biblio', 'house']
-        #list_object = ['house'] #только для домов
         geolocator_yandex = Yandex(api_key="1b2779ee-0b47-46e1-a95f-1f45d41033b5")
         geolocator_nomenatim = Nominatim(user_agent="memchiki")
         json_data = {}
@@ -41,8 +40,7 @@ class OpenMapData_PASHOK:
         for name_object in list_object:
             list_address = get_address(name_object)
             for adress in list_address:
-                # try:
-                    print('adr=',adress)
+                try:
                     location = geolocator_yandex.geocode(adress)
                     coef = round(random.uniform(0, 1), 4)
                     addr = geolocator_nomenatim.reverse((location.latitude, location.longitude))
@@ -53,10 +51,10 @@ class OpenMapData_PASHOK:
                                             "longtitude": location.longitude, "address": addr.address, "coefficient": coef}
                                 are['postamats'].append(postamat)
                                 i += 1
-                # except:
-                #     print("Exception occured while reverse geocodein")
+                except:
+                    print("Exception occured while reverse geocodein")
 
-        with open("TmpData.json", "w") as f:
+        with open("TmpData_new.json", "w") as f:
             json.dump(json_data, f, ensure_ascii=False)
         f.close()
 

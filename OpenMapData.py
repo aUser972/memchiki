@@ -12,19 +12,18 @@ def get_address(type_obj):  #принимает тип объекта(соотв
     list_address = []
     workbook = openpyxl.load_workbook(name_file)
     worksheet = workbook.active
-
     if worksheet.max_row > 2517: #абсолютно тупая проверка, чтобы ограничить количество запросов из-за таблицы с домами
         count_row = 10  #тут ограничитель по запросам
     else:
         count_row = worksheet.max_row
-    for row in worksheet.iter_rows(3, count_row): #запустил на весь размер таблицы
+    for row in worksheet.iter_rows(3, 143): #запустил на весь размер таблицы
         text = str(row[0].value)
         if text != '':
             if text.find('Address') > 0:
                 list_address.append(text[text.find('Address') + len('Address'): text.find("\navailable")])
             else:
                 list_address.append(text)
-                print(text)
+                #print(text)
     return list_address
 #get_address('house')
 class OpenMapData_PASHOK:
@@ -41,8 +40,8 @@ class OpenMapData_PASHOK:
         for name_object in list_object:
             list_address = get_address(name_object)
             for adress in list_address:
-                # try:
-                    print('adr=',adress)
+                try:
+                    #print('adr=',adress)
                     location = geolocator_yandex.geocode(adress)
                     coef = round(random.uniform(0, 1), 4)
                     addr = geolocator_nomenatim.reverse((location.latitude, location.longitude))
@@ -53,8 +52,8 @@ class OpenMapData_PASHOK:
                                             "longtitude": location.longitude, "address": addr.address, "coefficient": coef}
                                 are['postamats'].append(postamat)
                                 i += 1
-                # except:
-                #     print("Exception occured while reverse geocodein")
+                except:
+                    print("Exception occured while reverse geocodein")
 
         with open("TmpData.json", "w") as f:
             json.dump(json_data, f, ensure_ascii=False)

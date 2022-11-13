@@ -32,28 +32,30 @@ class ClientProcessing:
   async def get_data(req: Request):
     response = {}
 
-    with open("TmpData_new.json") as f:
-      json_data = json.load(f)
+    with open("DataBase.json") as f:
+      jsonData = json.load(f)
     f.close()
-
+    dataBase = jsonData["Data"][0]
+    i=1
     if req.calculationModel == "Model1":
       response = { "Postamats": [] }
-      for area in req.Area:
-        for district in json_data["Districts"]:
-          for are in district["area"]:
-            if area == are['name']:
-              for i in are['postamats']:
-                if float(req.minConsumers) < i['coefficient'] < float(req.maxConsumers):
-                  response['Postamats'].append(i)
+      for object in req.objectType:
+        for area in req.Area:
+          for postamat in dataBase[area][object]:
+            if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
+              postamat["id"] = i
+              response['Postamats'].append(postamat)
+              i+=1
     else:
       response = { "Polygon": [] }
-      for area in req.Area:
-        for district in json_data["Districts"]:
-          for are in district["area"]:
-            if area == are['name']:
-              for i in are['postamats']:
-                if float(req.minConsumers) < i['coefficient'] < float(req.maxConsumers):
-                  response['Polygon'].append(i)
+      for object in req.objectType:
+        for area in req.Area:
+          for postamat in dataBase[area][object]:
+            if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
+              postamat["id"] = i
+              response['Polygon'].append(postamat)
+              i+=1
+            
     return response
 
   def start(self):

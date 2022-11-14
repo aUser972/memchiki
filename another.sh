@@ -1,1 +1,0 @@
-https://geocode-maps.yandex.ru/1.x/?apikey=1b2779ee-0b47-46e1-a95f-1f45d41033b5&geocode=Пункты Выдачи&ll=37.315118,55.564566&spn=0.552069,0.400552

@@ -68,7 +68,7 @@ class OpenMapData:
     def getPostamatData():
         geolocator_yandex = Yandex(api_key="1b2779ee-0b47-46e1-a95f-1f45d41033b5")
         geolocator_nomenatim = Nominatim(user_agent="memchiki")
-        workbook = openpyxl.load_workbook("mfc.xlsx")
+        workbook = openpyxl.load_workbook("postamats.xlsx")
         worksheet = workbook.active
         json_data = {}
         with open("another_safe.json", "r") as f:

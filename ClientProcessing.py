@@ -5,7 +5,7 @@ import json
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
-from MathModel import haversine
+from MathModel import haversine, sorting_by_coef
 
 with open("AreaList.json") as f:
   areaListData = json.load(f)
@@ -50,6 +50,7 @@ class ClientProcessing:
   )
   @app.post("/district")
   async def getByDistrict(req: RequestDistrict):
+    print('polu')
     response = {}
     with open("DataBase.json") as f:
       jsonData = json.load(f)
@@ -63,8 +64,8 @@ class ClientProcessing:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
-              if i > req.numberPosts:
-                break
+              # if i > req.numberPosts:
+              #   break
               postamat["id"] = i
               response['Postamats'].append(postamat)
               i+=1
@@ -96,13 +97,13 @@ class ClientProcessing:
         for postamat in dataBase[area][object]:
           if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
             if isPointInCircle(postamat["longtitude"], postamat["lattitude"], req.Longtitude, req.Lattitude, req.Radius):
-              if i > req.numberPosts:
-                break
+              # if i > req.numberPosts:
+              #   break
               postamat["id"] = i
               response['Postamats'].append()
               i+=1
 
-    return response
+    return sorting_by_coef(response, req.numberPosts)
 
   def start(self):
     with open("config.json") as f:

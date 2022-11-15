@@ -27,21 +27,3 @@ def haversine(lat1, lon1, lat2, lon2): # широта и долгота точе
     c = 2 * math.asin(math.sqrt(a))
     print('dist = ', rad * c)
     return rad * c
-
-with open("DataBase_pickpoint.json") as f:
-    data_pick = json.load(f)
-f.close()
-
-with open("DataBase.json") as f:
-    data_house = json.load(f)
-f.close()
-i = 0
-for pick_postamat in data_pick["postamats"]:
-    for object in req.objectType:
-        for area in req.Area:
-            for house in data_house["Data"][0]["Жилой дом"]:
-                if i == 10:
-                    break
-                haversine(pick_postamat['lattitude'], pick_postamat['longtitude'], house['lattitude'], house['longtitude'])
-            if i == 10:
-                break

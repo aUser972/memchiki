@@ -27,6 +27,7 @@ class RequestDistrict(BaseModel):
   calculationModel: str
   maxConsumers: str
   minConsumers: str
+  numberPosts: int
 
 class RequestCircle(BaseModel):
   objectType: List[str]
@@ -35,6 +36,7 @@ class RequestCircle(BaseModel):
   Longtitude: float
   Lattitude: float
   Radius: float
+  numberPosts: int
 
 class ClientProcessing:
   app = FastAPI()
@@ -61,15 +63,20 @@ class ClientProcessing:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
+              if i > req.numberPosts:
+                break
               postamat["id"] = i
               response['Postamats'].append(postamat)
               i+=1
+
     else:
       response = { "Polygon": [] }
       for object in req.objectType:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
+              if i > req.numberPosts:
+                break
               postamat["id"] = i
               response['Polygon'].append(postamat)
               i+=1
@@ -89,6 +96,8 @@ class ClientProcessing:
         for postamat in dataBase[area][object]:
           if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
             if isPointInCircle(postamat["longtitude"], postamat["lattitude"], req.Longtitude, req.Lattitude, req.Radius):
+              if i > req.numberPosts:
+                break
               postamat["id"] = i
               response['Postamats'].append()
               i+=1

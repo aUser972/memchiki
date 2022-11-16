@@ -35,7 +35,7 @@ class RequestCircle(BaseModel):
   minConsumers: str
   Longtitude: float
   Lattitude: float
-  Radius: float
+  Radius: int
   numberPosts: int
 
 class ClientProcessing:
@@ -50,7 +50,6 @@ class ClientProcessing:
   )
   @app.post("/district")
   async def getByDistrict(req: RequestDistrict):
-    print('polu')
     response = {}
     with open("DataBase.json") as f:
       jsonData = json.load(f)
@@ -102,7 +101,7 @@ class ClientProcessing:
               if i > req.numberPosts:
                 break
               postamat["id"] = i
-              response['Postamats'].append()
+              response['Postamats'].append(postamat)
               i+=1
 
     return sorting_by_coef_post(response, req.numberPosts)

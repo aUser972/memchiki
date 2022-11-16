@@ -29,7 +29,23 @@ def haversine(lat1, lon1, lat2, lon2): # широта и долгота точе
     return rad * c
 
 
-def sorting_by_coef(data, k):
+def sorting_by_coef_poly(data, k):
+    postamats = data['Polygon']
+    swapped = False
+    for i in range(len(postamats)-1, 0, -1):
+        for j in range(i):
+            if postamats[j]['coefficient'] < postamats[j+1]['coefficient']:
+                postamats[j]['id'], postamats[j + 1]['id'] = postamats[j + 1]['id'], postamats[j]['id']
+                postamats[j], postamats[j+1] = postamats[j+1], postamats[j]
+                swapped = True
+        if swapped:
+            swapped = False
+        else:
+            break
+    postamats = postamats[0:k]
+    return {'Polygon': postamats}
+
+def sorting_by_coef_post(data, k):
     postamats = data['Postamats']
     swapped = False
     for i in range(len(postamats)-1, 0, -1):

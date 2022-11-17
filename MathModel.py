@@ -25,7 +25,7 @@ def haversine(lat1, lon1, lat2, lon2): # широта и долгота точе
          math.cos(lat1) * math.cos(lat2))
     rad = 6371302
     c = 2 * math.asin(math.sqrt(a))
-    print('dist = ', rad * c)
+    # print('dist = ', rad * c)
     return rad * c
 
 
@@ -42,7 +42,8 @@ def sorting_by_coef_poly(data, k):
             swapped = False
         else:
             break
-    postamats = postamats[0:k]
+    if len(postamats) < k:    
+      postamats = postamats[0:k]
     return {'Polygon': postamats}
 
 def sorting_by_coef_post(data, k):
@@ -58,5 +59,6 @@ def sorting_by_coef_post(data, k):
             swapped = False
         else:
             break
-    postamats = postamats[0:k]
+    if len(postamats) < k:    
+      postamats = postamats[0:k]
     return {'Postamats': postamats}

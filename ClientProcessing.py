@@ -63,12 +63,14 @@ class ClientProcessing:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
-              if i > req.numberPosts:
-                break
+              # if i > req.numberPosts:
+                # break
               postamat["id"] = i
               response['Postamats'].append(postamat)
-              response = sorting_by_coef_post(response, req.numberPosts)
+              # response = sorting_by_coef_post(response, req.numberPosts)
               i+=1
+      print(response)
+      return sorting_by_coef_post(response, req.numberPosts)
 
     else:
       response = { "Polygon": [] }
@@ -76,14 +78,16 @@ class ClientProcessing:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
-              if i > req.numberPosts:
-                break
+              # if i > req.numberPosts:
+              #   break
               postamat["id"] = i
               response['Polygon'].append(postamat)
-              response = sorting_by_coef_poly(response, req.numberPosts)
+              # response = sorting_by_coef_poly(response, req.numberPosts)
               i+=1
+      print(response)
+      return sorting_by_coef_poly(response, req.numberPosts)
             
-    return response
+    # return response
 
   @app.post("/circle")
   async def getByCircle(req: RequestCircle):
@@ -98,12 +102,11 @@ class ClientProcessing:
         for postamat in dataBase[area][object]:
           if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
             if isPointInCircle(postamat["longtitude"], postamat["lattitude"], req.Longtitude, req.Lattitude, req.Radius):
-              if i > req.numberPosts:
-                break
+              # if i > req.numberPosts:
+              #   break
               postamat["id"] = i
               response['Postamats'].append(postamat)
               i+=1
-
     return sorting_by_coef_post(response, req.numberPosts)
 
   def start(self):

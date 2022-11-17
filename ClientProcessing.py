@@ -63,29 +63,29 @@ class ClientProcessing:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
-              # if i > req.numberPosts:
-                # break
+              if i > req.numberPosts:
+                break
               postamat["id"] = i
               response['Postamats'].append(postamat)
               # response = sorting_by_coef_post(response, req.numberPosts)
               i+=1
-      print(response)
+      # print(response)
       return sorting_by_coef_post(response, req.numberPosts)
 
     else:
-      response = { "Polygon": [] }
+      response = { "Postamats": [] }
       for object in req.objectType:
         for area in req.Area:
           for postamat in dataBase[area][object]:
             if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
-              # if i > req.numberPosts:
-              #   break
+              if i > req.numberPosts:
+                break
               postamat["id"] = i
-              response['Polygon'].append(postamat)
+              response['Postamats'].append(postamat)
               # response = sorting_by_coef_poly(response, req.numberPosts)
               i+=1
       print(response)
-      return sorting_by_coef_poly(response, req.numberPosts)
+      return sorting_by_coef_post(response, req.numberPosts)
             
     # return response
 
@@ -102,8 +102,8 @@ class ClientProcessing:
         for postamat in dataBase[area][object]:
           if float(req.minConsumers) < postamat['coefficient'] < float(req.maxConsumers):
             if isPointInCircle(postamat["longtitude"], postamat["lattitude"], req.Longtitude, req.Lattitude, req.Radius):
-              # if i > req.numberPosts:
-              #   break
+              if i > req.numberPosts:
+                break
               postamat["id"] = i
               response['Postamats'].append(postamat)
               i+=1
